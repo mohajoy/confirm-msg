@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>নমস্কার ইতি ম্যাডাম</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500;600;700;800&family=Hind+Siliguri:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --dusk-1: #2a1b3d;
+            --dusk-2: #44317a;
+            --dusk-3: #7b4b7e;
+            --blush: #e9a6a1;
+            --amber: #f2b95c;
+            --paper: #fdf6ee;
+            --ink: #31213f;
+            --ink-soft: #5d4a6b;
+            --line: rgba(49, 33, 63, .14);
+            color-scheme: light;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Hind Siliguri', system-ui, sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(120% 80% at 80% 0%, #8c5a86 0%, rgba(140, 90, 134, 0) 55%),
+                radial-gradient(110% 70% at 10% 100%, #5c3f8f 0%, rgba(92, 63, 143, 0) 60%),
+                linear-gradient(170deg, var(--dusk-1) 0%, var(--dusk-2) 55%, #6a3f6f 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+       
+        .sky {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0
+        }
+
+        .petal {
+            position: absolute;
+            top: -40px;
+            font-size: 18px;
+            opacity: .5;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg)
+            }
+
+            100% {
+                transform: translateY(112vh) rotate(320deg)
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .petal {
+                display: none
+            }
+        }
+
+        .stage {
+            position: relative;
+            z-index: 1;
+            min-height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 28px 18px
+        }
+
+        .page {
+            display: none;
+            width: 100%;
+            max-width: 560px
+        }
+
+        .page.active {
+            display: block;
+            animation: rise .4s ease-out both
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .page.active {
+                animation: none
+            }
+        }
+
+        .card {
+            background: var(--paper);
+            border-radius: 26px;
+            padding: 38px 30px 34px;
+            box-shadow: 0 30px 70px -30px rgba(16, 8, 28, .75), 0 2px 0 rgba(255, 255, 255, .5) inset;
+            position: relative;
+        }
+
+        .card::after {
+            content: "";
+            position: absolute;
+            inset: 9px;
+            border-radius: 18px;
+            border: 1px solid var(--line);
+            pointer-events: none;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Baloo Da 2', cursive;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.45
+        }
+
+        .namaskar {
+            text-align: center;
+            font-size: clamp(30px, 8vw, 46px);
+            font-weight: 800;
+            background: linear-gradient(100deg, #b4406a 0%, #d2683f 45%, #a8497f 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: .3px;
+        }
+
+        .flourish {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 16px 0 22px;
+            color: var(--blush);
+        }
+
+        .flourish span {
+            height: 1px;
+            width: 62px;
+            background: linear-gradient(90deg, transparent, #c98fa4)
+        }
+
+        .lede {
+            text-align: center;
+            font-size: clamp(17px, 4.4vw, 20px);
+            color: var(--ink-soft);
+            font-weight: 400;
+            line-height: 1.85;
+            margin: 0 auto;
+            max-width: 34ch;
+        }
+
+        .quote {
+            font-family: 'Baloo Da 2', cursive;
+            font-size: clamp(19px, 4.8vw, 24px);
+            line-height: 1.85;
+            color: var(--ink);
+            text-align: center;
+            margin: 6px auto 26px;
+            max-width: 32ch;
+        }
+
+        .ask {
+            text-align: center;
+            font-family: 'Baloo Da 2', cursive;
+            font-size: clamp(22px, 6vw, 30px);
+            color: #a8355f;
+            margin-bottom: 26px;
+        }
+
+        button {
+            font-family: inherit
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            border: 0;
+            cursor: pointer;
+            padding: 16px 22px;
+            border-radius: 999px;
+            font-family: 'Baloo Da 2', cursive;
+            font-size: 19px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(120deg, #c04f76, #e07b4f);
+            box-shadow: 0 12px 24px -12px rgba(176, 64, 102, .9);
+            transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px)
+        }
+
+        .btn:active {
+            transform: translateY(0)
+        }
+
+        .btn:disabled {
+            opacity: .38;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none
+        }
+
+        .btn:focus-visible,
+        .opt:focus-visible,
+        .no-btn:focus-visible {
+            outline: 3px solid #7b4b7e;
+            outline-offset: 3px
+        }
+
+        .yesno {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap
+        }
+
+        .yes-btn {
+            border: 0;
+            cursor: pointer;
+            padding: 16px 40px;
+            border-radius: 999px;
+            font-family: 'Baloo Da 2', cursive;
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(120deg, #c04f76, #e07b4f);
+            box-shadow: 0 14px 26px -14px rgba(176, 64, 102, .9);
+            transition: transform .25s cubic-bezier(.2, .8, .2, 1);
+        }
+
+        .no-btn {
+            border: 0;
+            cursor: pointer;
+            padding: 16px 40px;
+            border-radius: 999px;
+            font-family: 'Baloo Da 2', cursive;
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(120deg, #6cb8ea, #3f92d2);
+            box-shadow: 0 14px 26px -14px rgba(63, 146, 210, .9);
+            transition: left .22s ease, top .22s ease;
+            z-index: 50;
+        }
+
+        .hint {
+            text-align: center;
+            font-size: 14px;
+            color: #9a86a6;
+            margin-top: 22px;
+            min-height: 20px
+        }
+
+        .field {
+            margin-bottom: 26px
+        }
+
+        .field>h3 {
+            font-size: 19px;
+            color: var(--ink);
+            margin-bottom: 6px
+        }
+
+        .field>p {
+            margin: 0 0 14px;
+            font-size: 14.5px;
+            color: #8b7896;
+            line-height: 1.6
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            background: #fff;
+            font-family: inherit;
+            font-size: 17px;
+            color: var(--ink);
+        }
+
+        .or {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 0;
+            color: #a18fae;
+            font-size: 14px;
+        }
+
+        .or::before,
+        .or::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--line)
+        }
+
+        .opts {
+            display: grid;
+            gap: 10px
+        }
+
+        .opts.two {
+            grid-template-columns: 1fr 1fr
+        }
+
+        .opts.three {
+            grid-template-columns: repeat(3, 1fr)
+        }
+
+        .opt {
+            border: 1px solid var(--line);
+            background: #fff;
+            border-radius: 16px;
+            padding: 14px 12px;
+            cursor: pointer;
+            font-family: 'Hind Siliguri', sans-serif;
+            font-size: 16px;
+            color: var(--ink);
+            text-align: center;
+            line-height: 1.5;
+            transition: border-color .15s ease, background .15s ease, transform .15s ease;
+        }
+
+        .opt:hover {
+            transform: translateY(-2px)
+        }
+
+        .opt.on {
+            border-color: #c04f76;
+            background: #fff1f2;
+            box-shadow: 0 0 0 2px rgba(192, 79, 118, .25) inset;
+        }
+
+        .opt .emo {
+            display: block;
+            font-size: 44px;
+            line-height: 1.3;
+            margin-bottom: 2px
+        }
+
+        .recap {
+            border-top: 1px solid var(--line);
+            margin-top: 6px
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 15px 2px;
+            border-bottom: 1px solid var(--line)
+        }
+
+        .row dt {
+            color: #8b7896;
+            font-size: 15px;
+            margin: 0
+        }
+
+        .row dd {
+            margin: 0;
+            font-weight: 600;
+            font-size: 16.5px;
+            text-align: right
+        }
+
+        .final {
+            text-align: center;
+            padding: 44px 28px
+        }
+
+        .final .heart {
+            font-size: 66px;
+            display: block;
+            margin-bottom: 18px;
+            animation: beat 1.8s ease-in-out infinite
+        }
+
+        @keyframes beat {
+
+            0%,
+            100% {
+                transform: scale(1)
+            }
+
+            50% {
+                transform: scale(1.12)
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .final .heart {
+                animation: none
+            }
+        }
+
+        .final p {
+            font-family: 'Baloo Da 2', cursive;
+            font-size: clamp(20px, 5.2vw, 26px);
+            line-height: 1.8;
+            margin: 0 auto;
+            max-width: 26ch;
+            color: var(--ink)
+        }
+
+        .spacer {
+            height: 14px
+        }
+
+        .note {
+            font-size: 13px;
+            color: #9a86a6;
+            text-align: center;
+            margin-top: 18px
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sky" id="sky"></div>
+
+    <div class="stage">
+
+        
+        <section class="page active" id="p1">
+            <div class="card" style="text-align:center">
+                <h1 class="namaskar">নমস্কার ইতি ম্যাডাম</h1>
+                <div class="flourish"><span></span>❀<span></span></div>
+                <p class="lede">আপনার জন্য ছোটো একটি প্রচেষ্টা</p>
+                <div class="spacer"></div>
+                <div class="spacer"></div>
+                <button class="btn" onclick="go('p2')">নেক্সট</button>
+            </div>
+        </section>
+
+       
+        <section class="page" id="p2">
+            <div class="card">
+                <p class="quote">“এই ব্যস্ত শহরে এক কাপ চা আর তোমার সাথে আড্ডা, আমার পারফেক্ট একটা বিকেল কাটানোর জন্য এর
+                    চেয়ে ভালো আর কিছু হতে পারে না।”</p>
+                <h2 class="ask">তুমি কি রাজি?</h2>
+                <div class="yesno">
+                    <button class="yes-btn" id="yesBtn" onclick="go('p3')">হ্যাঁ</button>
+                    <button class="no-btn" id="noBtn" type="button">না</button>
+                </div>
+                <p class="hint" id="noHint"></p>
+            </div>
+        </section>
+
+       
+        <section class="page" id="p3">
+            <div class="card">
+                <div class="field">
+                    <h3>কবে দেখা হচ্ছে?</h3>
+                    <p>সাধারণত অক্টোবরের শেষের দিকে মিট করবো — তারিখ বেছে নাও, অথবা শুধু সপ্তাহটা বলে দাও।</p>
+                    <input type="date" id="dateInput" min="2026-10-01" max="2026-11-15">
+                    <div class="or">অথবা</div>
+                    <div class="opts two" id="weekOpts">
+                        <button class="opt" data-v="অক্টোবরের ১ম সপ্তাহ">অক্টোবরের ১ম সপ্তাহ</button>
+                        <button class="opt" data-v="অক্টোবরের ২য় সপ্তাহ">অক্টোবরের ২য় সপ্তাহ</button>
+                        <button class="opt" data-v="অক্টোবরের ৩য় সপ্তাহ">অক্টোবরের ৩য় সপ্তাহ</button>
+                        <button class="opt" data-v="অক্টোবরের ৪র্থ সপ্তাহ">অক্টোবরের ৪র্থ সপ্তাহ</button>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <h3>কয়টায়?</h3>
+                    <div class="opts two" id="timeOpts">
+                        <button class="opt" data-v="বিকাল ৩টা">বিকাল ৩টা</button>
+                        <button class="opt" data-v="বিকাল ৪টা">বিকাল ৪টা</button>
+                        <button class="opt" data-v="বিকাল ৫টা">বিকাল ৫টা</button>
+                        <button class="opt" data-v="বিকাল ৬টা">বিকাল ৬টা</button>
+                    </div>
+                </div>
+
+                <button class="btn" id="p3Next" disabled onclick="go('p4')">নেক্সট</button>
+                <p class="note" id="p3Note">তারিখ (বা সপ্তাহ) আর সময় — দুটোই বেছে নাও</p>
+            </div>
+        </section>
+
+        
+        <section class="page" id="p4">
+            <div class="card">
+                <div class="field">
+                    <h3>হালকা নাস্তা হিসাবে কি নেয়া যায়?</h3>
+                    <div class="opts two" id="snackOpts">
+                        <button class="opt" data-v="পাস্তা"><span class="emo">🍝</span>পাস্তা</button>
+                        <button class="opt" data-v="স্যান্ডউইচ"><span class="emo">🥪</span>স্যান্ডউইচ</button>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <h3>ডেজার্ট হিসাবে কোনটা পছন্দ?</h3>
+                    <div class="opts three" id="dessertOpts">
+                        <button class="opt" data-v="আইসক্রিম"><span class="emo">🍦</span>আইসক্রিম</button>
+                        <button class="opt" data-v="মাহালাবিয়া"><span class="emo">🍨</span>মাহালাবিয়া</button>
+                        <button class="opt" data-v="লাচ্ছি"><span class="emo">🥤</span>লাচ্ছি</button>
+                    </div>
+                </div>
+
+                <button class="btn" id="p4Next" disabled onclick="go('p5')">নেক্সট</button>
+                <p class="note" id="p4Note">দুটো আইটেমই বেছে নাও</p>
+            </div>
+        </section>
+
+        <section class="page" id="p5">
+            <div class="card">
+                <h2 style="text-align:center;font-size:24px;color:#a8355f;margin-bottom:6px">তাহলে ঠিক রইলো</h2>
+                <dl class="recap">
+                    <div class="row">
+                        <dt>তারিখ</dt>
+                        <dd id="rDate">—</dd>
+                    </div>
+                    <div class="row">
+                        <dt>সময়</dt>
+                        <dd id="rTime">—</dd>
+                    </div>
+                    <div class="row">
+                        <dt>নাস্তা</dt>
+                        <dd id="rSnack">—</dd>
+                    </div>
+                    <div class="row">
+                        <dt>ডেজার্ট</dt>
+                        <dd id="rDessert">—</dd>
+                    </div>
+                </dl>
+                <div class="spacer"></div>
+                <button class="btn" id="confirmBtn" onclick="confirmDate()">কনফার্ম</button>
+                <p class="note" id="sendNote"></p>
+            </div>
+        </section>
+
+      
+        <section class="page" id="p6">
+            <div class="card final">
+                <span class="heart">🤍</span>
+                <p>সুন্দর একটি বিকাল কাটানোর সুযোগ করে দেয়ার জন্য অগ্রিম ধন্যবাদ</p>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        
+        const WEB3FORMS_ACCESS_KEY = "a6748270-c067-41e4-85af-6b37414f3c00";
+
+      
+        const MAIL_SUBJECT = "ডেটিং কনফার্ম হয়েছে 🤍";
+   
+        const pick = { date: "", time: "", snack: "", dessert: "" };
+
+       
+        function go(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (id === 'p5') fillRecap();
+        }
+
+      
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const noHint = document.getElementById('noHint');
+        const hints = ["ওদিকে যাওয়া যাবে না 🙂", "আবার চেষ্টা করো…", "বাটনটা লাজুক", "হ্যাঁ বাটনটা কিন্তু বসেই আছে", "ধরা যাচ্ছে না, তাই না?"];
+        let escaped = false, runs = 0, yesScale = 1;
+
+        function runAway() {
+            const r = noBtn.getBoundingClientRect();
+            if (!escaped) {
+                noBtn.style.width = r.width + 'px';
+                noBtn.style.height = r.height + 'px';
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = r.left + 'px';
+                noBtn.style.top = r.top + 'px';
+                noBtn.style.margin = '0';
+                escaped = true;
+            }
+            const pad = 10;
+            const maxX = Math.max(pad, window.innerWidth - r.width - pad);
+            const maxY = Math.max(pad, window.innerHeight - r.height - pad);
+            let x, y, n = 0;
+            do {
+                x = pad + Math.random() * (maxX - pad);
+                y = pad + Math.random() * (maxY - pad);
+                n++;
+            } while (n < 25 && Math.hypot(x - r.left, y - r.top) < 170);
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+
+            runs++;
+            noHint.textContent = hints[Math.min(runs, hints.length) - 1];
+            yesScale = Math.min(1.35, yesScale + 0.05);
+            yesBtn.style.transform = 'scale(' + yesScale + ')';
+        }
+
+        noBtn.addEventListener('mouseenter', runAway);
+        noBtn.addEventListener('mouseover', runAway);
+        noBtn.addEventListener('focus', runAway);
+        noBtn.addEventListener('click', e => { e.preventDefault(); runAway(); });
+        noBtn.addEventListener('touchstart', e => { e.preventDefault(); runAway(); }, { passive: false });
+
+        
+        document.addEventListener('mousemove', e => {
+            if (!document.getElementById('p2').classList.contains('active')) return;
+            const r = noBtn.getBoundingClientRect();
+            const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+            if (Math.hypot(e.clientX - cx, e.clientY - cy) < 90) runAway();
+        });
+
+        function group(containerId, key, after) {
+            const box = document.getElementById(containerId);
+            box.addEventListener('click', e => {
+                const b = e.target.closest('.opt');
+                if (!b) return;
+                box.querySelectorAll('.opt').forEach(o => o.classList.remove('on'));
+                b.classList.add('on');
+                pick[key] = b.dataset.v;
+                if (after) after();
+            });
+        }
+
+        const dateInput = document.getElementById('dateInput');
+        const weekBox = document.getElementById('weekOpts');
+
+        
+        dateInput.addEventListener('change', () => {
+            if (dateInput.value) {
+                weekBox.querySelectorAll('.opt').forEach(o => o.classList.remove('on'));
+                pick.date = formatDate(dateInput.value);
+            } else {
+                pick.date = "";
+            }
+            check3();
+        });
+
+    
+        group('weekOpts', 'date', () => { dateInput.value = ""; check3(); });
+        group('timeOpts', 'time', check3);
+        group('snackOpts', 'snack', check4);
+        group('dessertOpts', 'dessert', check4);
+
+        function formatDate(v) {
+            const bn = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+            const months = ['জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'];
+            const d = new Date(v + 'T00:00:00');
+            const day = String(d.getDate()).split('').map(c => bn[+c]).join('');
+            const yr = String(d.getFullYear()).split('').map(c => bn[+c]).join('');
+            return day + ' ' + months[d.getMonth()] + ' ' + yr;
+        }
+
+        function check3() {
+            const ok = !!pick.date && !!pick.time;
+            document.getElementById('p3Next').disabled = !ok;
+            document.getElementById('p3Note').style.visibility = ok ? 'hidden' : 'visible';
+        }
+        function check4() {
+            const ok = !!pick.snack && !!pick.dessert;
+            document.getElementById('p4Next').disabled = !ok;
+            document.getElementById('p4Note').style.visibility = ok ? 'hidden' : 'visible';
+        }
+
+       
+        function fillRecap() {
+            document.getElementById('rDate').textContent = pick.date || '—';
+            document.getElementById('rTime').textContent = pick.time || '—';
+            document.getElementById('rSnack').textContent = pick.snack || '—';
+            document.getElementById('rDessert').textContent = pick.dessert || '—';
+        }
+
+     
+        async function confirmDate() {
+            const btn = document.getElementById('confirmBtn');
+            const note = document.getElementById('sendNote');
+            btn.disabled = true;
+            btn.textContent = 'পাঠানো হচ্ছে…';
+            note.textContent = '';
+
+            const payload = {
+                access_key: WEB3FORMS_ACCESS_KEY,
+                subject: MAIL_SUBJECT,
+                from_name: "Ete said yes",
+                "তারিখ": pick.date,
+                "সময়": pick.time,
+                "নাস্তা": pick.snack,
+                "ডেজার্ট": pick.dessert,
+                "কনফার্ম করেছে": new Date().toLocaleString('bn-BD')
+            };
+
+            try {
+                const res = await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                await res.json();
+            } catch (err) {
+                console.error("Web3Forms:", err);
+            }
+            go('p6');
+        }
+
+        (function () {
+            const sky = document.getElementById('sky');
+            const glyphs = ['❀', '✿', '🤍', '·', '❁'];
+            for (let i = 0; i < 18; i++) {
+                const s = document.createElement('span');
+                s.className = 'petal';
+                s.textContent = glyphs[i % glyphs.length];
+                s.style.left = Math.random() * 100 + 'vw';
+                s.style.fontSize = (12 + Math.random() * 16) + 'px';
+                s.style.animationDuration = (11 + Math.random() * 12) + 's';
+                s.style.animationDelay = (-Math.random() * 20) + 's';
+                sky.appendChild(s);
+            }
+        })();
+    </script>
+</body>
+
+</html>
